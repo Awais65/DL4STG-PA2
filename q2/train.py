@@ -15,7 +15,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from q2.data import G, MAX_T_NORMAL, MAX_T_SPEED, N_FRAMES, N_IN, N_OUT, g_apply, load_moving_mnist
+from q2.data import (
+    G, MAX_T_NORMAL, MAX_T_SPEED, N_FRAMES, N_IN, N_OUT, batch_window, g_apply, load_moving_mnist,
+)
 from q2.models import ConvLSTMForecaster, count_params
 
 # Training speeds and symmetry augmentation per model (handout, "What Can Data Fix?").
@@ -78,16 +80,23 @@ def masked_mse(pred, Y, mask):
 
 
 @torch.no_grad()
-def val_e5(model, val, bs=100):
-    """E^(5) at 1x, t=1 on the validation split (monitoring only)."""
+def val_metrics(model, val, bs=100):
+    """Validation errors with t=1 (monitoring and model-D selection only).
+
+    E^(5) at 1x, and E^(2) (first two horizons) at 1x, 2x and 3x.
+    """
     model.eval()
-    errs = []
+    mse = {k: [] for k in (1, 2, 3)}
     for i in range(0, len(val), bs):
         v = val[i : i + bs].float() / 255.0
-        X, Y = v[:, :N_IN], v[:, N_IN : N_IN + N_OUT]
-        errs.append(((model(X) - Y) ** 2).mean(dim=(1, 2, 3, 4)))
+        for k in (1, 2, 3):
+            X, Y, _ = batch_window(v, 1, k)
+            mse[k].append(((model(X) - Y) ** 2).mean(dim=(2, 3, 4)))  # (B, 5) per-horizon MSE
     model.train()
-    return torch.cat(errs).mean().item()
+    mse = {k: torch.cat(m) for k, m in mse.items()}
+    out = dict(val_e5=mse[1].mean().item())
+    out.update({f"val_e2_{k}x": mse[k][:, :2].mean().item() for k in (1, 2, 3)})
+    return out
 
 
 def main():
@@ -147,9 +156,13 @@ def main():
         if dev.type == "cuda":
             torch.cuda.synchronize()
         epoch_time = time.perf_counter() - t0
-        ve = val_e5(model, val)
-        history.append(dict(epoch=epoch, train_loss=running / n_seen, val_e5=ve, epoch_time=epoch_time))
-        print(f"epoch {epoch:2d}  loss {running / n_seen:.4e}  val E5 {ve:.4e}  {epoch_time:.1f}s", flush=True)
+        vm = val_metrics(model, val)
+        history.append(dict(epoch=epoch, train_loss=running / n_seen, **vm, epoch_time=epoch_time))
+        print(
+            f"epoch {epoch:2d}  loss {running / n_seen:.4e}  val E5 {vm['val_e5']:.4e}  "
+            f"E2 1x/2x/3x {vm['val_e2_1x']:.4e}/{vm['val_e2_2x']:.4e}/{vm['val_e2_3x']:.4e}  {epoch_time:.1f}s",
+            flush=True,
+        )
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
