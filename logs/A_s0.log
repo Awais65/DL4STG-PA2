@@ -1,0 +1,32 @@
+A_s0: 480,784 params on NVIDIA GeForce RTX 4070 Laptop GPU, cfg={'speed_aug': False, 'sym_aug': False}
+epoch  1  loss 4.6122e-02  val E5 3.9320e-02  17.9s
+epoch  2  loss 3.9693e-02  val E5 3.8572e-02  17.6s
+epoch  3  loss 3.8679e-02  val E5 3.7310e-02  17.1s
+epoch  4  loss 3.7115e-02  val E5 3.5723e-02  18.0s
+epoch  5  loss 3.5215e-02  val E5 3.4099e-02  18.1s
+epoch  6  loss 3.3687e-02  val E5 3.2425e-02  17.8s
+epoch  7  loss 3.2345e-02  val E5 3.1211e-02  17.7s
+epoch  8  loss 3.1161e-02  val E5 3.0400e-02  18.2s
+epoch  9  loss 3.0479e-02  val E5 3.0029e-02  17.7s
+epoch 10  loss 2.9845e-02  val E5 2.9646e-02  17.4s
+epoch 11  loss 2.9390e-02  val E5 2.8893e-02  17.9s
+epoch 12  loss 2.8903e-02  val E5 2.8515e-02  17.5s
+epoch 13  loss 2.8486e-02  val E5 2.8713e-02  17.4s
+epoch 14  loss 2.8157e-02  val E5 2.8282e-02  16.8s
+epoch 15  loss 2.7784e-02  val E5 2.7366e-02  17.9s
+epoch 16  loss 2.7323e-02  val E5 2.7093e-02  17.8s
+epoch 17  loss 2.6908e-02  val E5 2.6450e-02  17.9s
+epoch 18  loss 2.6409e-02  val E5 2.6203e-02  13.1s
+epoch 19  loss 2.6128e-02  val E5 2.5749e-02  10.0s
+epoch 20  loss 2.5696e-02  val E5 2.5230e-02  13.5s
+epoch 21  loss 2.5264e-02  val E5 2.5264e-02  17.4s
+epoch 22  loss 2.4804e-02  val E5 2.5312e-02  17.7s
+epoch 23  loss 2.4437e-02  val E5 2.4151e-02  17.6s
+epoch 24  loss 2.4094e-02  val E5 2.3903e-02  12.6s
+epoch 25  loss 2.3698e-02  val E5 2.4103e-02  10.3s
+epoch 26  loss 2.3376e-02  val E5 2.3218e-02  9.2s
+epoch 27  loss 2.3136e-02  val E5 2.3009e-02  17.9s
+epoch 28  loss 2.2797e-02  val E5 2.2541e-02  17.9s
+epoch 29  loss 2.2530e-02  val E5 2.2491e-02  18.2s
+epoch 30  loss 2.2305e-02  val E5 2.2092e-02  15.7s
+saved checkpoints\A_s0.pt; mean epoch time 16.4s
