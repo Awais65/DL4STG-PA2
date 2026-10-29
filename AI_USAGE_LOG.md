@@ -22,6 +22,7 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 11 | 2026-10-29 | "commit checkpoints and logs too" / "start with remaining tasks will add the writeouts in the end" | Committed `checkpoints/` and `logs/`. Pointed out that Q2.5/Q2.11 must be committed before their experiments; I chose to write short predictions now. | |
 | 12 | 2026-10-29 | "Give me predections verbaige and will modify it" | AI drafted a Q2.5 prediction (mirror passes mostly, rotation harder, breakdown at 3x) with a placeholder for my reach estimate. Noted that I had already seen validation E^(2) at 2x/3x on 2026-10-25 (1.85e-2 / 4.27e-2 / 4.99e-2), so the speed part is not fully blind. | I rewrote and shortened the draft (my text pasted back), changed the rotation example to "a sideways 1 resembles a dash". |
 | 13 | 2026-10-29 | "reach is 8 px, correct this and remove placeholders" | Replaced "[R]" with 8 px and removed "[If R ≈ 8:]"; committed my text otherwise unchanged as `predictions/Q2.5.md` before running Tables 3-4 / Figures 3-5. | Reach of 8 px is my Q2.3 estimate. |
+| 14 | 2026-10-29 | (continuation of 13: run the baseline tests) | Ran Table 3 (mirror/rotation), Table 4 (2x/3x), Figure 3 + GIFs (videos 9269, 9818 for M; 9928, 9391 for R), Figure 4 and Figure 5. Figure 5 first picked video 9007, whose digits touch at 2x/3x; added a connected-component check to `fig5_video` and regenerated with video 9021. | |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |

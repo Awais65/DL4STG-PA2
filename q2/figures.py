@@ -14,6 +14,7 @@ import imageio.v2 as imageio
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from scipy import ndimage
 
 from q2.data import batch_window, load_moving_mnist
 from q2.evaluate import TRANSFORMS, Symmetrised, load_model, predict, require_prediction, transform_errors
@@ -167,12 +168,23 @@ def speed_rows(f, video, dev):
     return rows, labels
 
 
+def n_blobs(frame, min_size=15):
+    """Number of 8-connected bright regions of at least min_size pixels (two separate digits -> 2)."""
+    lab, n = ndimage.label(frame > INTENSITY_MIN, structure=np.ones((3, 3)))
+    sizes = ndimage.sum(np.ones_like(lab), lab, range(1, n + 1))
+    return int((sizes >= min_size).sum())
+
+
 def fig5_video(test):
-    """First test video whose digits do not overlap in any displayed true frame (inputs and 2 targets, all speeds)."""
+    """First test video whose digits do not overlap (or touch) in any displayed true frame, at all speeds.
+
+    Displayed true frames are the five inputs and first two targets at 1x, 2x and 3x; each must
+    show two separate bright regions and no drop in bright area.
+    """
     for i in range(len(test)):
         shown = torch.cat([torch.cat([X[0], Y[0, :2]]) for X, Y, _ in
-                           (batch_window(test[i : i + 1], 1, k) for k in (1, 2, 3))])
-        if overlap_score(shown[:, 0]) > 0.95:
+                           (batch_window(test[i : i + 1], 1, k) for k in (1, 2, 3))])[:, 0]
+        if overlap_score(shown) > 0.95 and all(n_blobs(fr.numpy()) == 2 for fr in shown):
             return i
     raise RuntimeError("no non-overlapping video found")
 
