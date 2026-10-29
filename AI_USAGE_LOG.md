@@ -31,6 +31,7 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 20 | 2026-10-29 | "go with dilation 2 and train D" | Training model D = dilation-2 ConvLSTM (480,784 params), seeds 0 and 1. | I chose dilation 2 from the validation comparison. |
 | 21 | 2026-10-29 | (continuation of 20) | Ran Table 5 (A-D), Table 6 (symmetrised B and D; C_M, C_R ~3e-17 to 5e-17) and Figure 6 (symmetrised D seed 0 on the Figure 3 and Figure 5 videos, GIFs `figures/gifs/fig6a_*.gif`). | |
 | 22 | 2026-10-29 | "re-run B seed 0 and update the tracker" | Re-trained B seed 0 (mean epoch 6.7 s; the stalled run is kept in `logs/superseded/`), re-ran Tables 5 and 6, updated the tracker. | |
+| 23 | 2026-10-29 | "train D+B too" | Trained D+B (dilation 2, speed + symmetry augmentation), seeds 0 and 1; re-ran Table 6 with symmetrised D+B as a third row. Figure 6 still uses symmetrised D. | |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |
