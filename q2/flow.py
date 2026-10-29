@@ -61,6 +61,17 @@ def run():
     stats = {"n_pairs": n_pairs, "n_pixels_kept": n, "median_speed": med,
              "direction_fraction_per_bin": np.histogram(theta, bins=np.arange(0, 361, 20))[0].tolist()}
     stats["direction_fraction_per_bin"] = [c / n for c in stats["direction_fraction_per_bin"]]
+    # Q2.1: how much the direction histogram moves if every video is mirrored (theta -> 180 - theta)
+    # or rotated 90 deg anticlockwise (theta -> theta + 90), as total variation distance.
+    hist = lambda a: np.histogram(a % 360.0, bins=np.arange(0, 361, 20))[0] / n
+    h = hist(theta)
+    stats["tv_distance_mirror"] = float(0.5 * np.abs(h - hist(180.0 - theta)).sum())
+    stats["tv_distance_rot90"] = float(0.5 * np.abs(h - hist(theta + 90.0)).sum())
+    stats["speed_percentiles"] = dict(zip(["p10", "p25", "p50", "p75", "p90"],
+                                          np.percentile(speed, [10, 25, 50, 75, 90]).tolist()))
+    stats["speed_max"] = float(speed.max())
+    stats["speed_p99_9"] = float(np.percentile(speed, 99.9))
+    stats["n_pixels_faster_than_2x_median"] = int((speed > 2 * med).sum())   # about 6.6 px/frame
     Path("results/fig1_flow_stats.json").write_text(json.dumps(stats, indent=2))
     print(f"pairs={n_pairs}  pixels kept={n:,}  median speed={med:.3g} px/frame")
     print("caption: Farneback flow on the first 50 training videos (950 frame pairs); "

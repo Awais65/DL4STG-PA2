@@ -33,6 +33,8 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 22 | 2026-10-29 | "re-run B seed 0 and update the tracker" | Re-trained B seed 0 (mean epoch 6.7 s; the stalled run is kept in `logs/superseded/`), re-ran Tables 5 and 6, updated the tracker. | |
 | 23 | 2026-10-29 | "train D+B too" | Trained D+B (dilation 2, speed + symmetry augmentation), seeds 0 and 1; re-ran Table 6 with symmetrised D+B as a third row. Figure 6 still uses symmetrised D. | |
 | 24 | 2026-10-29 | "keep symmetrised D as final" | No change: Figure 6 already uses symmetrised D (seed 0). | I chose symmetrised D as the final model. |
+| 25 | 2026-10-29 | "give me verbiage for Q2.1 to Q2.4" | AI drafted answers to Q2.1-Q2.4 from Figure 1, Table 2 and Figure 2, plus extra Figure 1 statistics (total variation distance of the direction histogram under mirror/rotation; speed percentiles). | |
+| 26 | 2026-10-29 | (pasted the Q2.1-Q2.4 draft back) | Saved it as `report/answers_q2.md`. While adding the extra statistics to `q2/flow.py` / `results/fig1_flow_stats.json`, AI found its draft was wrong: 21 of 103,050 kept pixels (max 8.1 px/frame) move faster than 6.6 px/frame, not none. Corrected the Q2.1 sentence. | Pasted the draft back without changes. |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |
