@@ -1,0 +1,32 @@
+Dcand_patch8_s0: 594,496 params on NVIDIA GeForce RTX 4070 Laptop GPU, cfg={'speed_aug': True, 'sym_aug': False}
+epoch  1  loss 4.9362e-02  val E5 3.9484e-02  E2 1x/2x/3x 3.9510e-02/3.9481e-02/3.9474e-02  4.4s
+epoch  2  loss 4.0196e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9496e-02/3.9467e-02/3.9460e-02  4.2s
+epoch  3  loss 4.0207e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9495e-02/3.9467e-02/3.9460e-02  4.1s
+epoch  4  loss 4.0194e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9494e-02/3.9465e-02/3.9459e-02  4.0s
+epoch  5  loss 4.0193e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9495e-02/3.9467e-02/3.9460e-02  4.2s
+epoch  6  loss 4.0211e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9494e-02/3.9466e-02/3.9459e-02  4.2s
+epoch  7  loss 4.0202e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9494e-02/3.9466e-02/3.9459e-02  4.4s
+epoch  8  loss 4.0193e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9493e-02/3.9464e-02/3.9457e-02  4.2s
+epoch  9  loss 4.0203e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9492e-02/3.9464e-02/3.9457e-02  4.0s
+epoch 10  loss 4.0191e-02  val E5 3.9471e-02  E2 1x/2x/3x 3.9495e-02/3.9467e-02/3.9460e-02  4.2s
+epoch 11  loss 4.0204e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9493e-02/3.9465e-02/3.9458e-02  4.1s
+epoch 12  loss 4.0181e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9493e-02/3.9466e-02/3.9459e-02  4.5s
+epoch 13  loss 4.0187e-02  val E5 3.9471e-02  E2 1x/2x/3x 3.9494e-02/3.9466e-02/3.9459e-02  4.3s
+epoch 14  loss 4.0187e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9491e-02/3.9463e-02/3.9456e-02  4.7s
+epoch 15  loss 4.0193e-02  val E5 3.9471e-02  E2 1x/2x/3x 3.9494e-02/3.9466e-02/3.9459e-02  4.6s
+epoch 16  loss 4.0202e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9491e-02/3.9463e-02/3.9456e-02  4.7s
+epoch 17  loss 4.0204e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9492e-02/3.9464e-02/3.9457e-02  4.1s
+epoch 18  loss 4.0198e-02  val E5 3.9473e-02  E2 1x/2x/3x 3.9495e-02/3.9468e-02/3.9461e-02  4.1s
+epoch 19  loss 4.0208e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9491e-02/3.9463e-02/3.9456e-02  4.0s
+epoch 20  loss 4.0183e-02  val E5 3.9472e-02  E2 1x/2x/3x 3.9494e-02/3.9466e-02/3.9460e-02  4.1s
+epoch 21  loss 4.0191e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9490e-02/3.9463e-02/3.9456e-02  4.2s
+epoch 22  loss 4.0196e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9490e-02/3.9462e-02/3.9456e-02  4.0s
+epoch 23  loss 4.0206e-02  val E5 3.9473e-02  E2 1x/2x/3x 3.9495e-02/3.9467e-02/3.9460e-02  3.8s
+epoch 24  loss 4.0194e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9490e-02/3.9463e-02/3.9456e-02  3.9s
+epoch 25  loss 4.0186e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9490e-02/3.9463e-02/3.9456e-02  4.1s
+epoch 26  loss 4.0193e-02  val E5 3.9470e-02  E2 1x/2x/3x 3.9492e-02/3.9465e-02/3.9459e-02  4.5s
+epoch 27  loss 4.0206e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9491e-02/3.9463e-02/3.9456e-02  4.2s
+epoch 28  loss 4.0203e-02  val E5 3.9472e-02  E2 1x/2x/3x 3.9493e-02/3.9466e-02/3.9459e-02  4.2s
+epoch 29  loss 4.0193e-02  val E5 3.9469e-02  E2 1x/2x/3x 3.9491e-02/3.9463e-02/3.9457e-02  4.1s
+epoch 30  loss 4.0210e-02  val E5 3.9468e-02  E2 1x/2x/3x 3.9490e-02/3.9463e-02/3.9456e-02  4.2s
+saved checkpoints\Dcand_patch8_s0.pt; mean epoch time 4.2s
