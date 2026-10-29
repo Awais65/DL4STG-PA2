@@ -30,6 +30,7 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 19 | 2026-10-29 | (queue finished) | Validation comparison (`results/model_d_selection.md`): dilation 2 lowest val E^(2) at 3x (3.12e-2 vs C 3.28e-2); dilation 3 and patch 8 stuck on a near-blank plateau (loss ~4.02e-2) for most of the 30 epochs. Noted epoch-time variance on the laptop (6.6-23.9 s for the same architecture). | |
 | 20 | 2026-10-29 | "go with dilation 2 and train D" | Training model D = dilation-2 ConvLSTM (480,784 params), seeds 0 and 1. | I chose dilation 2 from the validation comparison. |
 | 21 | 2026-10-29 | (continuation of 20) | Ran Table 5 (A-D), Table 6 (symmetrised B and D; C_M, C_R ~3e-17 to 5e-17) and Figure 6 (symmetrised D seed 0 on the Figure 3 and Figure 5 videos, GIFs `figures/gifs/fig6a_*.gif`). | |
+| 22 | 2026-10-29 | "re-run B seed 0 and update the tracker" | Re-trained B seed 0 (mean epoch 6.7 s; the stalled run is kept in `logs/superseded/`), re-ran Tables 5 and 6, updated the tracker. | |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |
