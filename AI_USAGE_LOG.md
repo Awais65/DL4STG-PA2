@@ -25,6 +25,11 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 14 | 2026-10-29 | (continuation of 13: run the baseline tests) | Ran Table 3 (mirror/rotation), Table 4 (2x/3x), Figure 3 + GIFs (videos 9269, 9818 for M; 9928, 9391 for R), Figure 4 and Figure 5. Figure 5 first picked video 9007, whose digits touch at 2x/3x; added a connected-component check to `fig5_video` and regenerated with video 9021. | |
 | 15 | 2026-10-29 | "Give me the verbiage and I'll modify" | AI drafted a Q2.11 prediction (B fixes mirror/rotation gaps, C fixes 2x but not 3x, D fixes 3x), written after seeing Tables 3-4 and before training B-D. The draft was 4 sentences; AI flagged this and proposed joining sentences 1-2 with a semicolon. | I sent the draft back unchanged. |
 | 16 | 2026-10-29 | "Approved go ahead and push it" | Committed the 3-sentence version as `predictions/Q2.11.md` and pushed before any B/C/D training. | Approved the semicolon merge. |
+| 17 | 2026-10-29 | (after Q2.11 commit) | Wrote `scripts/run_bcd.sh` (B, C seeds 0/1; model-D candidates dilation 2, dilation 3, patch 8 on seed 0) and `q2/select_d.py` (validation-only comparison). A 5x5 kernel was ruled out: 1,332,752 params > 721,176. | |
+| 18 | 2026-10-29 | "update the tracker artifact while training runs" / "is the training running?" / "training status?" | Updated the progress tracker; reported queue progress. B seed 0 had one stalled epoch (2,148 s), so its mean epoch time (80.4 s) is not representative. | |
+| 19 | 2026-10-29 | (queue finished) | Validation comparison (`results/model_d_selection.md`): dilation 2 lowest val E^(2) at 3x (3.12e-2 vs C 3.28e-2); dilation 3 and patch 8 stuck on a near-blank plateau (loss ~4.02e-2) for most of the 30 epochs. Noted epoch-time variance on the laptop (6.6-23.9 s for the same architecture). | |
+| 20 | 2026-10-29 | "go with dilation 2 and train D" | Training model D = dilation-2 ConvLSTM (480,784 params), seeds 0 and 1. | I chose dilation 2 from the validation comparison. |
+| 21 | 2026-10-29 | (continuation of 20) | Ran Table 5 (A-D), Table 6 (symmetrised B and D; C_M, C_R ~3e-17 to 5e-17) and Figure 6 (symmetrised D seed 0 on the Figure 3 and Figure 5 videos, GIFs `figures/gifs/fig6a_*.gif`). | |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |
