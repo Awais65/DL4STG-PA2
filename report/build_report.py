@@ -230,6 +230,7 @@ table.wide th, table.wide td { padding: 2px 3px; }
 .seeds { color: #555; white-space: nowrap; }
 figure { margin: 12px 0; text-align: center; break-inside: avoid; }
 figure img { display: block; margin: 0 auto 4px; }
+img { max-width: 100%; }
 figcaption { text-align: left; font-size: 9pt; }
 pre { font-size: 6.6pt; line-height: 1.25; background: #f7f7f7; padding: 6px; overflow: hidden; break-inside: avoid; }
 code { font-size: 0.92em; }
