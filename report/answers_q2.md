@@ -44,14 +44,14 @@ Blank and Copy-last commute with mirror and rotation by construction. Blank outp
 
 ## Q2.7
 
-Video 9928 under rotation (Figure 3, T = R).
+Video 9928 under rotation (Figure 3, T = R). The video shows two overlapping 9s; they overlap in all 20 frames.
 
 - Row 2, the true rotated future: the digits move straight up at about 3 px per frame. Their centre of brightness rises from row 43 to row 32 over the five horizons and stays near column 17.
 - Row 4, R(f(X)), the model's prediction on the original clip, rotated afterwards: this follows the truth closely. It rises about 3 px per frame, from row 42 to row 30, drifts only about 1 px sideways, and stays fairly compact: the brightest pixel falls from 0.78 to 0.67.
 - Row 3, f(R(X)), the model's prediction on the rotated clip: this tells a different story.
   - The upward motion slows to about 2 px per frame, ending near row 36 instead of 32.
   - The digits drift about 4 px to the right, a direction the true digits never move.
-  - The digits smear. The bright area grows from 325 to 434 pixels and the brightest pixel falls from 0.80 to 0.58, so by h = 5 the two digits are an unrecognisable blob.
+  - The digits smear. The bright area grows from 325 to 434 pixels and the brightest pixel falls from 0.80 to 0.58, so by h = 5 the two 9s are an unrecognisable blob.
 
 The per-horizon consistency gap grows from 2.1e-3 at h = 1 to 1.2e-2 at h = 5. So on the rotated clip the model loses the digits' speed and direction, and the error compounds as its own blurred predictions are fed back.
 

@@ -37,6 +37,7 @@ This log is the source for that appendix. Add an entry for every prompt as it ha
 | 26 | 2026-10-29 | (pasted the Q2.1-Q2.4 draft back) | Saved it as `report/answers_q2.md`. While adding the extra statistics to `q2/flow.py` / `results/fig1_flow_stats.json`, AI found its draft was wrong: 21 of 103,050 kept pixels (max 8.1 px/frame) move faster than 6.6 px/frame, not none. Corrected the Q2.1 sentence. | Pasted the draft back without changes. |
 | 27 | 2026-10-30 | "give me verbiage for Q2.5 to Q2.10" / "whats pending?" / "yes" | AI measured the Figure 3/5 panels (brightness centroids, peak, bright area), Blank's E^(2) per speed and per-video C_M vs C_R, then drafted Q2.6-Q2.10 and an optional labelled outcome note for Q2.5 (Q2.5 itself kept verbatim). | |
 | 28 | 2026-10-30 | (pasted the Q2.5-Q2.10 draft back) | Appended to `report/answers_q2.md` with the committed Q2.5 text inserted unchanged. Added `q2/answer_stats.py` -> `results/answer_stats.json` so the cited numbers are reproducible. AI corrected one wording of its own draft in Q2.7 (row-4 drift is about 1 px, not under 1 px). | Pasted the draft back without changes. |
+| 29 | 2026-10-30 | "figure 9928 have 9 and 1?" / "update Q2.7 to say two overlapping 9s" | AI rendered all 20 frames of test video 9928: both digits appear to be 9s and overlap throughout. Updated Q2.7 in `report/answers_q2.md` to name them. | I identified the digits as two 9s from the frames. |
 
 <!-- Template for new rows:
 | N | YYYY-MM-DD | "exact prompt" | what it produced; files | what I changed / checked |
