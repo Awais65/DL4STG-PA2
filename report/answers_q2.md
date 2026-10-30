@@ -81,3 +81,78 @@ Both say A should fail at 3×, and A failing at 2× even though 2× is within re
 2. If C fixes both 2× and 3×, the failure was unfamiliar motion.
 3. If C fixes 2× but still fails at 3×, the 3× failure is reach.
 4. Confirm by keeping the speed-augmented data and enlarging only the reach (model D). D should then succeed at 3× where C did not.
+
+## Q2.11
+
+*Prediction committed before training models B–D (`f6fecaa`, 29 Oct 2026 18:59), reproduced unchanged:*
+
+Model B (symmetry augmentation) should shrink model A's mirror and rotation gaps, with C_R falling more than C_M because rotated digits were the less familiar appearance; it should leave the speed failure unchanged. Model C (speed augmentation) should fix most of the 2× degradation, since 2× motion (≈6.6 px/frame) is within the 8 px reach and was only unfamiliar, but it should still fail at 3× (≈10 px/frame), which exceeds the reach. Model D (larger reach, also speed-augmented) should be the only model that does well at 3×, which would show the 3× failure is architectural reach, not missing data.
+
+## Q2.12
+
+Model D is model A with a dilation of 2 in the 3×3 convolutions of both ConvLSTM layers. The padding is 2, so the grid stays at 16×16. Everything else matches model A: patch size 4, 64 hidden channels, the 1×1 output, the 9-step rollout, and the same training protocol with speed augmentation as C. Dilation doesn't add any weights, so D has 480,784 parameters. That is the same as A and well below the 721,176 cap.
+
+A dilated 3×3 kernel connects cells up to 2 apart (8 px) instead of 1. Following the same paths as in Q2.3:
+
+- (i) from u_τ through layer 1 (2 cells) and then layer 2 (2 cells): 4 cells, or 16 px;
+- (ii) from h⁽¹⁾_{τ−1} through the same two convolutions: also 16 px;
+- (iii) from h⁽²⁾_{τ−1} through layer 2 only: 8 px.
+
+D's reach is therefore 16 px per step. That is strictly more than A's 8 px and above the roughly 10 px/frame motion at 3×. I picked D using the validation split (`results/model_d_selection.md`):
+
+- **Dilation 2:** lowest validation E⁽²⁾ at 3×, 3.12e-2, compared with 3.28e-2 for C.
+- **Dilation 3** (24 px reach) and **patch 8** (16 px reach, 594,496 parameters): both stayed at the error level of a near-blank prediction for most of the 30 epochs.
+- **5×5 kernel:** 1,332,752 parameters, which is over the cap.
+
+This design has a cost. A dilation-2 kernel only connects cells two apart, so the folded grid splits into four separate 8×8 sub-grids (odd/even rows × odd/even columns). These never share information. I confirmed this directly. Each output cell of D depends on 64 input cells, all in its own sub-grid. Each output cell of A depends on 169 input cells spread across all four (`results/answer_stats.json`, "coupling"). D gains reach by giving up spatial resolution.
+
+## Q2.13
+
+- **Mirror and rotation failure: appearance.** Model B has the same motion as A but sees every orientation during training, and the penalty disappears. Its E_M and E_R both equal its E⁽⁵⁾ (2.24e-2 each), whereas A had +3% and +8%. C_R drops from 3.04e-3 to 1.60e-3 (−47%) and C_M from 1.86e-3 to 1.28e-3 (−31%). Speed augmentation on its own doesn't remove the rotation penalty, since C's E_R is still 4% above its E⁽⁵⁾. Part of the lower C_M for C and D comes from blurrier predictions (Q2.6). For those models, E_T − E⁽⁵⁾ is a better comparison than C_T.
+- **2× failure: unfamiliar motion.** C uses the same architecture with speed augmentation, and it reduces E⁽²⁾ at 2× from 4.45e-2 to 2.88e-2 (−35%). That is well below Blank's 4.26e-2. B, which never saw fast clips, doesn't help (4.47e-2).
+- **3× failure: mostly unfamiliar motion, with a small reach effect.** C alone reduces E⁽²⁾ at 3× from 5.14e-2 to 3.34e-2 (−35%). Doubling the reach in D only brings it down to 3.17e-2 (a further −5%), although the gap holds across seeds (C 3.33e-2 / 3.35e-2, D 3.17e-2 / 3.16e-2). C probably copes at 3× despite its 8 px reach because a digit is about 20 px wide. After a 10 px jump, part of the digit is still within 8 px of where it was.
+
+The clean result the question describes (C fails at 3×, D succeeds) didn't happen here. If it had, the 3× failure would be architectural. C and D see the same data and differ only in reach, and more data can't fix a reach limit. In a single step, each cell's update only sees cells within its reach. If a digit jumps further than that, the cell at its new position gets no information from its old position, and no choice of weights can connect the two. Data sets the weights, but it doesn't change which cells are connected.
+
+## Q2.14
+
+Yes, speed augmentation costs accuracy at 1×:
+
+- E⁽⁵⁾: 2.18e-2 for A, 2.72e-2 for C (+25%), 2.87e-2 for D (+32%).
+- E⁽²⁾ at 1×: 1.84e-2, 2.37e-2 and 2.64e-2.
+
+A likely reason is that the same capacity now has to cover three speeds. Only a third of training clips are at 1×, and the model has to work out the speed from five frames. D loses a further 11% at 1× compared with C, probably because of its four decoupled sub-grids (Q2.12). Symmetry augmentation, by contrast, costs very little: B's E⁽⁵⁾ is 2.24e-2, only +3%.
+
+Whether the trade-off is worth it depends on the inputs:
+
+- **If clips can arrive at any speed,** speed augmentation clearly wins. Averaged over 1×, 2× and 3×, E⁽²⁾ is 3.81e-2 for A, 2.86e-2 for C and 2.91e-2 for D.
+- **If only 1× clips matter,** A is still best.
+
+D's extra reach gained 5% at 3× but lost 11% at 1×, so on these numbers it isn't worth choosing over C. B's consistency gain is worth its 3% cost.
+
+## Q2.15
+
+- **Exactness.** Built-in symmetry is exact, but learned symmetry isn't. Take
+  f̄(gX) = (1/8) Σ_{h∈G} h⁻¹ f(hgX).
+  Let k = hg. As h runs over G, so does k, and h⁻¹ = g k⁻¹. Each term becomes g k⁻¹ f(kX). g only rearranges pixels, so it can be moved outside the average:
+  f̄(gX) = g · (1/8) Σ_{k∈G} k⁻¹ f(kX) = g f̄(X).
+  This means C_M = C_R = 0 for any forecaster. Table 6 confirms it up to floating-point error: about 5e-17 for symmetrised B and 3e-17 for symmetrised D. Model B learned the symmetry from augmented data, and it only brings the gaps down to C_M = 1.28e-3 and C_R = 1.60e-3. Augmentation encourages consistency but doesn't guarantee it.
+- **Accuracy.** Wrapping didn't cost any accuracy. Symmetrised B's E⁽⁵⁾ is 2.17e-2, compared with 2.24e-2 for B. Since the wrapper is exactly consistent, E_M = E_R = E⁽⁵⁾ = 2.17e-2. At 2× and 3×, E⁽²⁾ is 4.41e-2 and 5.01e-2, against 4.47e-2 and 5.10e-2 for B. Symmetrised D matches D: 2.86e-2 against 2.87e-2.
+- **Inference cost.** It needs eight forward passes, about 2.0 s for the 1,000 test videos compared with 0.23 s for the unwrapped models, so roughly 8.7× slower. Training cost is unchanged.
+- **When averaging should hurt.** Averaging eight predictions blurs the result wherever they disagree, for example when the model does well on upright clips but badly on rotated ones. The average then combines sharp, correct predictions with wrong ones. On average this didn't hurt here (see the accuracy point above), but the blur shows up on hard videos. In Q2.16, symmetrised D's brightest pixel on video 9928 is only 0.58, compared with 0.80 for model A's prediction on the same rotated clip.
+
+## Q2.16
+
+Only partly. In Figure 6(a), rows 3 and 4 of the final model for video 9928 under rotation are now identical, with a per-horizon C of about 3e-17. The disagreement between them is gone, and symmetrisation alone fixed it. But the shared prediction still goes wrong in the same way as model A's row 3:
+
+- The two 9s still rise too slowly, at about 1.9 px per frame against the true 3. They end 3 px short of the truth.
+- They still drift right, from column 22 to 25, while the true digits stay near column 17.
+- They are dimmer from the first frame, with a brightest pixel of 0.58 falling to 0.50. This is blur from the averaging.
+
+Its error on the rotated clip is 2.00e-2 at h = 1 and 2.99e-2 at h = 5. Model A's is 1.65e-2 and 2.91e-2, so the final model is no better on this video. Speed augmentation and reach don't come into it, because this is a 1× clip. The overlap between the two 9s probably accounts for some of the remaining failure. Symmetrisation made the model consistent, not correct.
+
+The speed failure, on the other hand, is fixed. On the Figure 5 video (9021, Figure 6(b)), E⁽²⁾ at 2× drops from 3.70e-2 to 2.04e-2, and at 3× from 3.92e-2 to 2.25e-2. That improvement comes from speed augmentation and reach, at a small cost at 1× (1.96e-2 against 1.70e-2).
+
+## Q2.17
+
+Partly. The final model, symmetrised D, beats Blank and Copy-last at every speed and gets worse only slowly as clips speed up. Its E⁽²⁾ is 2.64e-2, 2.91e-2 and 3.14e-2 at 1×, 2× and 3×, compared with 1.84e-2, 4.45e-2 and 5.14e-2 for model A. This speed robustness is the best evidence that it learned a motion rule. A model that had memorised typical training clips would fail exactly here, as model A did. Its exact mirror and rotation consistency (C_M = C_R = 0) is not evidence, because symmetrisation guarantees that for any forecaster. But it is less accurate than model A on 1× clips (E⁽⁵⁾ 2.86e-2 against 2.18e-2), its predictions blur over the five horizons, and on video 9928 it still slows and drifts the two overlapping 9s. One test it hasn't passed is keeping overlapping digits sharp and on their true paths for all five horizons.
