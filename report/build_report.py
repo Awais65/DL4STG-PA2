@@ -95,7 +95,7 @@ def answers_q2():
 
 
 def answers_q1():
-    text = (REPORT / "answers_q1_draft.md").read_text(encoding="utf-8")
+    text = (REPORT / "answers_q1.md").read_text(encoding="utf-8")
     text = text.split("\n", 1)[1]  # drop the file's own title line
     text = re.sub(r"(?m)^\*\(Redraw this.*\)\*\s*$", "", text)
     diagram = ROOT / "figures/q1_architecture.png"
