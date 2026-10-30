@@ -1,4 +1,4 @@
-"""Assemble the PA2 report: answers + tables + figures + AI log -> report/PA2_report.html and .pdf.
+"""Assemble the PA2 report: answers + tables + figures + AI log -> report/<roll>_PA2.html and .pdf.
 
 Run from the repo root:  python report/build_report.py
 The PDF is printed with headless Chrome (or Edge). Edit the answer files, not the HTML.
@@ -239,10 +239,10 @@ code { font-size: 0.92em; }
 """
     page = (f"<!doctype html><html><head><meta charset=utf-8><title>PA2 Report — {html.escape(AUTHOR)}</title>"
             f"<style>{css}</style></head><body>{body}</body></html>")
-    out_html = REPORT / "PA2_report.html"
+    out_html = REPORT / f"{ROLL}_PA2.html"
     out_html.write_text(page, encoding="utf-8")
     browser = next(b for b in BROWSERS if Path(b).exists())
-    out_pdf = REPORT / "PA2_report.pdf"
+    out_pdf = REPORT / f"{ROLL}_PA2.pdf"
     subprocess.run([browser, "--headless", "--disable-gpu", "--no-pdf-header-footer",
                     f"--print-to-pdf={out_pdf}", out_html.as_uri()], check=True, capture_output=True)
     print("wrote", out_html, "and", out_pdf)
